@@ -162,8 +162,7 @@ function ConRO.Evoker.Devastation(_, timeShift, currentSpell, gcd, tChosen, pvpC
 --Racials
 
 --Abilities
-	local _BladeDance, _BladeDance_RDY, _BladeDance_CD 														= ConRO:AbilityReady(ids.Devastation_Ability.BladeDance, timeShift);
-		local _Momentum_BUFF 																													= ConRO:Aura(ids.Devastation_Buff.Momentum, timeShift);
+	local _Quell, _Quell_RDY																											= ConRO:AbilityReady(Ability.Quell, timeShift);
 
 --Conditions
 	local _is_moving 																															= ConRO:PlayerSpeed();
@@ -171,11 +170,7 @@ function ConRO.Evoker.Devastation(_, timeShift, currentSpell, gcd, tChosen, pvpC
 	local _target_in_10yrds 																											= CheckInteractDistance("target", 3);
 
 --Indicators
-	ConRO:AbilityInterrupt(_Disrupt, _Disrupt_RDY and ConRO:Interrupt());
-	ConRO:AbilityPurge(_ConsumeMagic, _ConsumeMagic_RDY and ConRO:Purgable());
-	ConRO:AbilityMovement(_FelRush, _FelRush_RDY and not _target_in_melee);
-
-	ConRO:AbilityBurst(_Metamorphosis, _Metamorphosis_RDY and not _Metamorphosis_BUFF and not _EyeBeam_RDY and _Fury >= 100 and ConRO:BurstMode(_Metamorphosis));
+	ConRO:AbilityInterrupt(_Quell, _Quell_RDY and ConRO:Interrupt());
 
 --Rotations
 
