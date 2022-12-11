@@ -52,7 +52,7 @@ local ConRO_Evoker, ids = ...;
 	--Devastation
 		Dragonrage = {spellID = 375087, talentID = 87665},
 		EternitySurge = {spellID = 359073, talentID = 87647},
-			EternitySurge_FoM = {spellID = 382411, talentID = 87656},
+			EternitySurge_FoM = {spellID = 382411, talentID = 87647},
 		Firestorm = {spellID = 368847, talentID = 87659},
 		Pyre = {spellID = 357211, talentID = 87669},
 		ShatteringStar = {spellID = 370452, talentID = 87641},
