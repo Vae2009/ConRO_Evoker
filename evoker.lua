@@ -326,22 +326,27 @@ function ConRO.Evoker.Preservation(_, timeShift, currentSpell, gcd, tChosen, pvp
 	local _WingBuffet, _WingBuffet_RDY = ConRO:AbilityReady(Racial.WingBuffet, timeShift);
 
 --Abilities
-local _AzureStrike, _AzureStrike_RDY = ConRO:AbilityReady(Ability.AzureStrike, timeShift);
-local _DeepBreath, _DeepBreath_RDY = ConRO:AbilityReady(Ability.DeepBreath, timeShift);
-local _Disintegrate, _Disintegrate_RDY = ConRO:AbilityReady(Ability.Disintegrate, timeShift);
-local _FireBreath, _FireBreath_RDY = ConRO:AbilityReady(Ability.FireBreath, timeShift);
-local _Hover, _Hover_RDY = ConRO:AbilityReady(Ability.Hover, timeShift);
-local _Landslide, _Landslide_RDY = ConRO:AbilityReady(Ability.Landslide, timeShift);
-local _LivingFlame, _LivingFlame_RDY = ConRO:AbilityReady(Ability.LivingFlame, timeShift);
-	local _EssenceBurst_BUFF, _EssenceBurst_COUNT = ConRO:Aura(Buff.EssenceBurst, timeShift);
-local _Quell, _Quell_RDY = ConRO:AbilityReady(Ability.Quell, timeShift);
-local _TiptheScales, _TiptheScales_RDY = ConRO:AbilityReady(Ability.TiptheScales, timeShift);
-local _Unravel, _Unravel_RDY = ConRO:AbilityReady(Ability.Unravel, timeShift);
+	local _AzureStrike, _AzureStrike_RDY = ConRO:AbilityReady(Ability.AzureStrike, timeShift);
+	local _DeepBreath, _DeepBreath_RDY = ConRO:AbilityReady(Ability.DeepBreath, timeShift);
+	local _Disintegrate, _Disintegrate_RDY = ConRO:AbilityReady(Ability.Disintegrate, timeShift);
+	local _FireBreath, _FireBreath_RDY = ConRO:AbilityReady(Ability.FireBreath, timeShift);
+	local _FireBreath_FoM, _FireBreath_FoM_RDY = ConRO:AbilityReady(Ability.FireBreath_FoM, timeShift);
+	local _Hover, _Hover_RDY = ConRO:AbilityReady(Ability.Hover, timeShift);
+	local _Landslide, _Landslide_RDY = ConRO:AbilityReady(Ability.Landslide, timeShift);
+	local _LivingFlame, _LivingFlame_RDY = ConRO:AbilityReady(Ability.LivingFlame, timeShift);
+		local _EssenceBurst_BUFF, _EssenceBurst_COUNT = ConRO:Aura(Buff.EssenceBurst, timeShift);
+	local _Quell, _Quell_RDY = ConRO:AbilityReady(Ability.Quell, timeShift);
+	local _TiptheScales, _TiptheScales_RDY = ConRO:AbilityReady(Ability.TiptheScales, timeShift);
+	local _Unravel, _Unravel_RDY = ConRO:AbilityReady(Ability.Unravel, timeShift);
 
 --Conditions
 	local _is_moving = ConRO:PlayerSpeed();
 	local _enemies_in_melee, _target_in_melee = ConRO:Targets("Melee");
 	local _enemies_in_10yrds, _target_in_10yrds = ConRO:Targets("10");
+
+	if tChosen[Passive.FontofMagic.talentID] then
+		_FireBreath, _FireBreath_RDY =_FireBreath_FoM, _FireBreath_FoM_RDY;
+	end
 
 --Indicators
 	ConRO:AbilityInterrupt(_Quell, _Quell_RDY and ConRO:Interrupt());
