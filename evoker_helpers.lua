@@ -10,6 +10,7 @@ local Empowered_Color = {
     blue = {r = 0.01, b = 0.37, g = 0.79};
     red = {r = 0.8, b = 0, g = 0};
     green = {r = 0.01, b = 0.37, g = 0.78};
+	black = {r = 0.3, b = 0.3, g = 0.3};
 }
 
 function ConRO:CreateEmpoweredFrame()
@@ -27,7 +28,7 @@ function ConRO:CreateEmpoweredFrame()
 		frame:SetScript("OnDragStop", frame.StopMovingOrSizing);
 		frame:EnableMouse(ConRO.db.profile._Unlock_ConRO);
 
-		frame:SetPoint("CENTER", 0, -150);
+		frame:SetPoint("CENTER", 0, 100);
 		frame:SetSize(80, 80);
 		frame:SetFrameStrata('MEDIUM');
 		frame:SetFrameLevel('73');
