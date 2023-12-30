@@ -540,7 +540,7 @@ function ConRO.Evoker.Augmentation(_, timeShift, currentSpell, gcd, tChosen, pvp
 	ConRO:AbilityRaidBuffs(_BlisteringScales, _BlisteringScales_RDY and not ConRO:OneBuff(Buff.BlisteringScales));
 
 	ConRO:AbilityBurst(_BreathofEons, _BreathofEons_RDY and _EbonMight_BUFF and ConRO:BurstMode(_BreathofEons));
-	ConRO:AbilityBurst(_TimeSkip, _TimeSkip_RDY and _EbonMight_BUFF and not _BreathofEons_RDY and not _FireBreath_RDY and not _Upheaval_RDY and ConRO:BurstMode(_TimeSkip));
+	ConRO:AbilityBurst(_TimeSkip, _TimeSkip_RDY and not tChosen[Ability.InterwovenThreads.talentID] and _EbonMight_BUFF and not _BreathofEons_RDY and not _FireBreath_RDY and not _Upheaval_RDY and ConRO:BurstMode(_TimeSkip));
 	ConRO:AbilityBurst(_TiptheScales, _TiptheScales_RDY and not _TiptheScales_BUFF and _FireBreath_RDY and _EbonMight_BUFF and ConRO:BurstMode(_TiptheScales));
 
 --Rotations
@@ -560,6 +560,14 @@ function ConRO.Evoker.Augmentation(_, timeShift, currentSpell, gcd, tChosen, pvp
 		ConROEmpoweredFrame:Hide();
 	end
 
+	if currentSpell == _Eruption then
+		if _EssenceBurst_COUNT >= 1 then
+			_EssenceBurst_COUNT = _EssenceBurst_COUNT - 1;
+		else
+			_Essence = _Essence - 2;
+		end
+	end
+
 	if not _in_combat then
 		if _TiptheScales_RDY and not _TiptheScales_BUFF and ConRO:FullMode(_TiptheScales) then
 			tinsert(ConRO.SuggestedSpells, _TiptheScales);
@@ -573,10 +581,6 @@ function ConRO.Evoker.Augmentation(_, timeShift, currentSpell, gcd, tChosen, pvp
 	end
 
 	for i = 1, 2, 1 do
-		if _AzureStrike_RDY and _EssenceBurst_COUNT < _EssenceBurst_MCOUNT and (currentSpell == _LivingFlame or currentSpell == _EbonMight or currentSpell == _Eruption) then
-			tinsert(ConRO.SuggestedSpells, _AzureStrike);
-		end
-
 		if ConRO:IsSolo() then
 			if _Prescience_RDY and _Prescience_CHARGE >= 1 and not _Prescience_BUFF then
 				tinsert(ConRO.SuggestedSpells, _Prescience);
@@ -590,13 +594,17 @@ function ConRO.Evoker.Augmentation(_, timeShift, currentSpell, gcd, tChosen, pvp
 			end
 		end
 
-		if _EbonMight_RDY and not _EbonMight_BUFF then
+		if _EbonMight_RDY and not _EbonMight_BUFF and currentSpell ~= _EbonMight then
 			tinsert(ConRO.SuggestedSpells, _EbonMight);
 			_EbonMight_RDY = false;
 			_EbonMight_BUFF = true;
 		end
 
-		if _TimeSkip_RDY and _EbonMight_BUFF and not _BreathofEons_RDY and not _FireBreath_RDY and not _Upheaval_RDY and ConRO:FullMode(_TimeSkip) then
+		if _AzureStrike_RDY and _EssenceBurst_COUNT < _EssenceBurst_MCOUNT and (currentSpell == _LivingFlame or currentSpell == _EbonMight or currentSpell == _Eruption) then
+			tinsert(ConRO.SuggestedSpells, _AzureStrike);
+		end
+
+		if _TimeSkip_RDY and not tChosen[Ability.InterwovenThreads.talentID] and _EbonMight_BUFF and not _BreathofEons_RDY and not _FireBreath_RDY and not _Upheaval_RDY and ConRO:FullMode(_TimeSkip) then
 			tinsert(ConRO.SuggestedSpells, _TimeSkip);
 			_TimeSkip_RDY = false;
 		end
