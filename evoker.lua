@@ -20,13 +20,11 @@ function ConRO:EnableRotationModule(mode)
 			self.NextSpell = ConRO.Evoker.Devastation;
 			self.ToggleDamage();
 			ConROWindow:SetAlpha(ConRO.db.profile.transparencyWindow);
-			ConRONextWindow:SetAlpha(ConRO.db.profile.transparencyWindow);
 			ConRODefenseWindow:SetAlpha(ConRO.db.profile.transparencyWindow);
 		else
 			self.NextSpell = ConRO.Evoker.Disabled;
 			self.ToggleHealer();
 			ConROWindow:SetAlpha(0);
-			ConRONextWindow:SetAlpha(0);
 			ConRODefenseWindow:SetAlpha(0);
 		end
 	end;
@@ -36,13 +34,11 @@ function ConRO:EnableRotationModule(mode)
 			self.NextSpell = ConRO.Evoker.Preservation;
 			self.ToggleHealer();
 			ConROWindow:SetAlpha(ConRO.db.profile.transparencyWindow);
-			ConRONextWindow:SetAlpha(ConRO.db.profile.transparencyWindow);
 			ConRODefenseWindow:SetAlpha(ConRO.db.profile.transparencyWindow);
 		else
 			self.NextSpell = ConRO.Evoker.Disabled;
 			self.ToggleHealer();
 			ConROWindow:SetAlpha(0);
-			ConRONextWindow:SetAlpha(0);
 			ConRODefenseWindow:SetAlpha(0);
 		end
 	end;
@@ -52,13 +48,11 @@ function ConRO:EnableRotationModule(mode)
 			self.NextSpell = ConRO.Evoker.Augmentation;
 			self.ToggleDamage();
 			ConROWindow:SetAlpha(ConRO.db.profile.transparencyWindow);
-			ConRONextWindow:SetAlpha(ConRO.db.profile.transparencyWindow);
 			ConRODefenseWindow:SetAlpha(ConRO.db.profile.transparencyWindow);
 		else
 			self.NextSpell = ConRO.Evoker.Disabled;
 			self.ToggleHealer();
 			ConROWindow:SetAlpha(0);
-			ConRONextWindow:SetAlpha(0);
 			ConRODefenseWindow:SetAlpha(0);
 		end
 	end;
