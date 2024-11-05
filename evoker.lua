@@ -120,8 +120,9 @@ local _enemies_in_10yrds, _target_in_10yrds = ConRO:Targets("10");
 local _enemies_in_25yrds, _target_in_25yrds = ConRO:Targets("25");
 
 --Racials
-local _TailSwipe, _TailSwipe_RDY = _, _;
 local _WingBuffet, _WingBuffet_RDY = _, _;
+
+local HeroSpec, Racial = ids.HeroSpec, ids.Racial;
 
 function ConRO:Stats()
 	_Player_Level = UnitLevel("player");
@@ -140,7 +141,6 @@ function ConRO:Stats()
 	_enemies_in_10yrds, _target_in_10yrds = ConRO:Targets("10");
 	_enemies_in_25yrds, _target_in_25yrds = ConRO:Targets("25");
 
-	_TailSwipe, _TailSwipe_RDY = ConRO:AbilityReady(ids.Racial.TailSwipe, timeShift);
 	_WingBuffet, _WingBuffet_RDY = ConRO:AbilityReady(ids.Racial.WingBuffet, timeShift);
 end
 
@@ -153,34 +153,15 @@ local Empowered_Color = {
 
 local EmpoweredFrame_Color = Empowered_Color.red;
 
-local Empowered_FireBreath_Rank = "1";
-local Empowered_EternitySurge_Rank = "1";
-local Empowered_Upheaval_Rank = "1";
-local Empowered_DreamBreath_Rank = "1";
-local Empowered_Spiritbloom_Rank = "1";
-
 function ConRO.Evoker.Under60(_, timeShift, currentSpell, gcd, tChosen, pvpChosen)
 	wipe(ConRO.SuggestedSpells)
 	ConRO:Stats();
---Abilities
-
---Warnings
-
---Rotations
-
-
 	return nil;
 end
 
 function ConRO.Evoker.Under60Def(_, timeShift, currentSpell, gcd, tChosen, pvpChosen)
 	wipe(ConRO.SuggestedDefSpells)
 	ConRO:Stats();
---Abilities
-
---Warnings
-
---Rotations
-
 	return nil;
 end
 
@@ -194,12 +175,12 @@ function ConRO.Evoker.Devastation(_, timeShift, currentSpell, gcd, tChosen, pvpC
 		local _BlessingoftheBronze_BUFF = ConRO:Aura(Buff.BlessingoftheBronze, timeShift);
 	local _DeepBreath, _DeepBreath_RDY = ConRO:AbilityReady(Ability.DeepBreath, timeShift);
 	local _Disintegrate, _Disintegrate_RDY = ConRO:AbilityReady(Ability.Disintegrate, timeShift);
+		local _MassDisintegrate_BUFF = ConRO:Aura(Buff.MassDisintegrate, timeShift);
 	local _Dragonrage, _Dragonrage_RDY, _Dragonrage_CD = ConRO:AbilityReady(Ability.Dragonrage, timeShift);
 		local _Dragonrage_BUFF = ConRO:Aura(Buff.Dragonrage, timeShift);
+	local _Engulf, _Engulf_RDY = ConRO:AbilityReady(Ability.Engulf, timeShift);
 	local _EternitySurge, _EternitySurge_RDY = ConRO:AbilityReady(Ability.EternitySurge, timeShift);
-	local _EternitySurge_FoM, _EternitySurge_FoM_RDY = ConRO:AbilityReady(Ability.EternitySurge_FoM, timeShift);
-	local _FireBreath, _FireBreath_RDY, _FireBreath_CD = ConRO:AbilityReady(Ability.FireBreath, timeShift);
-	local _FireBreath_FoM, _FireBreath_FoM_RDY, _FireBreath_FoM_CD = ConRO:AbilityReady(Ability.FireBreath_FoM, timeShift);
+	local _FireBreath, _FireBreath_RDY = ConRO:AbilityReady(Ability.FireBreath, timeShift);
 		local _FireBreath_DEBUFF, _, _FireBreath_DUR = ConRO:TargetAura(Debuff.FireBreath, timeShift);
 		local _Burnout_BUFF, _Burnout_COUNT = ConRO:Aura(Buff.Burnout, timeShift);
 	local _Firestorm, _Firestorm_RDY = ConRO:AbilityReady(Ability.Firestorm, timeShift);
@@ -210,16 +191,30 @@ function ConRO.Evoker.Devastation(_, timeShift, currentSpell, gcd, tChosen, pvpC
 	local _Landslide, _Landslide_RDY = ConRO:AbilityReady(Ability.Landslide, timeShift);
 	local _LivingFlame, _LivingFlame_RDY = ConRO:AbilityReady(Ability.LivingFlame, timeShift);
 		local _EssenceBurst_BUFF, _EssenceBurst_COUNT = ConRO:Aura(Buff.EssenceBurst, timeShift);
+		local _LeapingFlames_BUFF = ConRO:Aura(Buff.LeapingFlames, timeShift);
 	local _Pyre, _Pyre_RDY = ConRO:AbilityReady(Ability.Pyre, timeShift);
 		local _ChargedBlast_BUFF, _ChargedBlast_COUNT = ConRO:Aura(Buff.ChargedBlast, timeShift);
 	local _Quell, _Quell_RDY = ConRO:AbilityReady(Ability.Quell, timeShift);
 	local _ShatteringStar, _ShatteringStar_RDY = ConRO:AbilityReady(Ability.ShatteringStar, timeShift);
+		local _ShatteringStar_DEBUFF = ConRO:TargetAura(Debuff.ShatteringStar, timeShift);
 	local _SourceofMagic, _SourceofMagic_RDY = ConRO:AbilityReady(Ability.SourceofMagic, timeShift);
 	local _TiptheScales, _TiptheScales_RDY = ConRO:AbilityReady(Ability.TiptheScales, timeShift);
 	local _Unravel, _Unravel_RDY = ConRO:AbilityReady(Ability.Unravel, timeShift);
 
+--Conditions
 	if tChosen[Ability.FontofMagic.talentID] then
-		_EternitySurge, _EternitySurge_RDY, _FireBreath, _FireBreath_RDY, _FireBreath_CD = _EternitySurge_FoM, _EternitySurge_FoM_RDY, _FireBreath_FoM, _FireBreath_FoM_RDY, _FireBreath_FoM_CD;
+		_EternitySurge, _EternitySurge_RDY = ConRO:AbilityReady(Ability.EternitySurge_FoM, timeShift);
+		_FireBreath, _FireBreath_RDY = ConRO:AbilityReady(Ability.FireBreath_FoM, timeShift);
+	end
+
+	local _Pyre_COST = 3;
+	if tChosen[Ability.DenseEnergy.talentID] then
+		_Pyre_COST = 2;
+	end
+
+	local _Pyre_TARGETS = 4;
+	if tChosen[Ability.Volatility.talentID] then
+		_Pyre_TARGETS = 3;
 	end
 
 	local _EssenceBurst_MCOUNT = 1;
@@ -227,6 +222,7 @@ function ConRO.Evoker.Devastation(_, timeShift, currentSpell, gcd, tChosen, pvpC
 		_EssenceBurst_MCOUNT = 2;
 	end
 
+	local Empowered_EternitySurge_Rank = "1";
 	local _EternitySurge_Targets = _enemies_in_25yrds;
 	if tChosen[Ability.EternitysSpan.talentID] then
 		_EternitySurge_Targets = _enemies_in_25yrds / 2;
@@ -236,14 +232,34 @@ function ConRO.Evoker.Devastation(_, timeShift, currentSpell, gcd, tChosen, pvpC
 		Empowered_EternitySurge_Rank = "2";
 	else
 		if tChosen[Ability.FontofMagic.talentID] then
-			if _EternitySurge_Targets == 3 then
+			if _EternitySurge_Targets > 2 and _EternitySurge_Targets <= 3 then
 				Empowered_EternitySurge_Rank = "3";
-			elseif _EternitySurge_Targets >= 4 then
+			elseif _EternitySurge_Targets >= 3.5 then
 				Empowered_EternitySurge_Rank = "4";
 			end
 		else
-			if _EternitySurge_Targets >= 3 then
+			if _EternitySurge_Targets >= 2.5 then
 				Empowered_EternitySurge_Rank = "3";
+			end
+		end
+	end
+
+	local Empowered_FireBreath_Rank = "1";
+	local _Cone_Targets = _enemies_in_25yrds;
+	if _Cone_Targets == 2 then
+		Empowered_FireBreath_Rank = "2";
+	elseif _Cone_Targets >= 20 then
+		Empowered_FireBreath_Rank = "1";
+	else
+		if tChosen[Ability.FontofMagic.talentID] then
+			if _Cone_Targets == 3 then
+				Empowered_FireBreath_Rank = "3";
+			elseif _Cone_Targets >= 4 then
+				Empowered_FireBreath_Rank = "4";
+			end
+		else
+			if _Cone_Targets >= 3 then
+				Empowered_FireBreath_Rank = "3";
 			end
 		end
 	end
@@ -274,57 +290,140 @@ function ConRO.Evoker.Devastation(_, timeShift, currentSpell, gcd, tChosen, pvpC
 		ConROEmpoweredFrame:Hide();
 	end
 
+	if select(2, ConRO:EndChannel()) == _Disintegrate and select(1, ConRO:EndChannel()) > 1 then
+		tinsert(ConRO.SuggestedSpells, _Disintegrate);
+	end
+
 	for i = 1, 2, 1 do
-		if select(2, ConRO:EndChannel()) == _Disintegrate and select(1, ConRO:EndChannel()) > 1 then
-			tinsert(ConRO.SuggestedSpells, _Disintegrate);
+		if not _in_combat then
+			if _Firestorm_RDY then
+				tinsert(ConRO.SuggestedSpells, _Firestorm);
+				_Firestorm_RDY = false;
+			end
+
+			if _LivingFlame_RDY and currentSpell ~= _LivingFlame then
+				tinsert(ConRO.SuggestedSpells, _LivingFlame);
+			end
 		end
 
-		if _Dragonrage_RDY and _FireBreath_RDY and (not tChosen[Ability.EternitySurge.talentID] or (tChosen[Ability.EternitySurge.talentID])) and _EternitySurge_RDY and ConRO:FullMode(_Dragonrage) then
+		if _DeepBreath_RDY and not _Dragonrage_BUFF and ((ConRO_AutoButton:IsVisible() and _enemies_in_25yrds >= 2) or ConRO_AoEButton:IsVisible() or ConRO:HeroSpec(HeroSpec.Scalecommander)) then
+			tinsert(ConRO.SuggestedSpells, _DeepBreath);
+			_DeepBreath_RDY = false;
+		end
+
+		if _Dragonrage_BUFF then
+			if _FireBreath_RDY and _Dragonrage_CD >= 10 then
+				tinsert(ConRO.SuggestedSpells, _FireBreath);
+				_FireBreath_RDY = false;
+			end
+
+			if _EternitySurge_RDY and _Dragonrage_CD >= 10 then
+				tinsert(ConRO.SuggestedSpells, _EternitySurge);
+				_EternitySurge_RDY = false;
+			end
+
+			if _ShatteringStar_RDY and _EssenceBurst_COUNT < _EssenceBurst_MCOUNT then
+				tinsert(ConRO.SuggestedSpells, _ShatteringStar);
+				_ShatteringStar_RDY = false;
+				_EssenceBurst_COUNT = _EssenceBurst_COUNT - 1;
+			end
+
+			if _Engulf_RDY and ConRO:HeroSpec(HeroSpec.Flameshaper) then
+				tinsert(ConRO.SuggestedSpells, _Engulf);
+				_Engulf_RDY = false;
+			end
+
+			if _Disintegrate_RDY and (_Essence >= 3 or _EssenceBurst_COUNT >= 1) and _MassDisintegrate_BUFF then
+				tinsert(ConRO.SuggestedSpells, _Disintegrate);
+				if _EssenceBurst_COUNT >= 1 then
+					_EssenceBurst_COUNT = _EssenceBurst_COUNT - 1;
+				else
+					_Essence = _Essence - 3;
+				end
+			end
+
+			if _Firestorm_RDY and _Snapfire_BUFF then
+				tinsert(ConRO.SuggestedSpells, _Firestorm);
+				_Snapfire_BUFF = false;
+			end
+
+			if _Disintegrate_RDY and _EssenceBurst_COUNT >= 1 then
+				tinsert(ConRO.SuggestedSpells, _Disintegrate);
+				_EssenceBurst_COUNT = _EssenceBurst_COUNT - 1;
+			end
+
+			if _LivingFlame_RDY and (_LeapingFlames_BUFF or _Burnout_COUNT >= 1) and _EssenceBurst_COUNT <= 0 then
+				tinsert(ConRO.SuggestedSpells, _LivingFlame);
+				_Burnout_COUNT = _Burnout_COUNT - 1;
+			end
+
+			if _Disintegrate_RDY and _Essence >= 3 then
+				tinsert(ConRO.SuggestedSpells, _Disintegrate);
+				_Essence = _Essence - 3;
+			end
+
+			if _AzureStrike_RDY then
+				tinsert(ConRO.SuggestedSpells, _AzureStrike);
+			end
+		end
+
+		if _ShatteringStar_RDY and _EssenceBurst_COUNT < _EssenceBurst_MCOUNT and ((ConRO_AutoButton:IsVisible() and _enemies_in_25yrds >= 2) or ConRO_AoEButton:IsVisible()) then
+			tinsert(ConRO.SuggestedSpells, _ShatteringStar);
+			_ShatteringStar_RDY = false;
+			_EssenceBurst_COUNT = _EssenceBurst_COUNT - 1;
+		end
+
+		if _Firestorm_RDY and _Snapfire_BUFF and ((ConRO_AutoButton:IsVisible() and _enemies_in_25yrds >= 3) or ConRO_AoEButton:IsVisible()) then
+			tinsert(ConRO.SuggestedSpells, _Firestorm);
+			_Snapfire_BUFF = false;
+		end
+
+		if _Dragonrage_RDY and _FireBreath_RDY and (not tChosen[Ability.EternitySurge.talentID] or (tChosen[Ability.EternitySurge.talentID] and _EternitySurge_RDY)) and ConRO:FullMode(_Dragonrage) then
 			tinsert(ConRO.SuggestedSpells, _Dragonrage);
 			_Dragonrage_RDY = false;
+		end
+
+		if _Firestorm_RDY and _Snapfire_BUFF then
+			tinsert(ConRO.SuggestedSpells, _Firestorm);
+			_Snapfire_BUFF = false;
 		end
 
 		if _FireBreath_RDY and _Dragonrage_CD >= 10 then
 			tinsert(ConRO.SuggestedSpells, _FireBreath);
 			_FireBreath_RDY = false;
-			Empowered_FireBreath_Rank = "1";
 		end
 
-		if _Firestorm_RDY and (_Snapfire_BUFF or (tChosen[Ability.EverburningFlame.talentID] and _FireBreath_DUR <= 3 and _FireBreath_DUR < _FireBreath_CD)) then
-			tinsert(ConRO.SuggestedSpells, _Firestorm);
-			_Firestorm_RDY = false;
+		if _Engulf_RDY and ConRO:HeroSpec(HeroSpec.Flameshaper) and ((ConRO_AutoButton:IsVisible() and _enemies_in_25yrds >= 3) or ConRO_AoEButton:IsVisible()) then
+			tinsert(ConRO.SuggestedSpells, _Engulf);
+			_Engulf_RDY = false;
 		end
 
-		if _ShatteringStar_RDY then
+		if _ShatteringStar_RDY and _EssenceBurst_COUNT < _EssenceBurst_MCOUNT then
 			tinsert(ConRO.SuggestedSpells, _ShatteringStar);
 			_ShatteringStar_RDY = false;
+			_EssenceBurst_COUNT = _EssenceBurst_COUNT - 1;
 		end
 
-		if _DeepBreath_RDY and ((ConRO_AutoButton:IsVisible() and _enemies_in_25yrds >= 2) or ConRO_AoEButton:IsVisible()) then
-			tinsert(ConRO.SuggestedSpells, _DeepBreath);
-			_DeepBreath_RDY = false;
-		end
-
-		if _EternitySurge_RDY and _Dragonrage_CD >= 15 then
+		if _EternitySurge_RDY and _Dragonrage_CD >= 10 then
 			tinsert(ConRO.SuggestedSpells, _EternitySurge);
 			_EternitySurge_RDY = false;
 		end
 
-		if _LivingFlame_RDY and _Burnout_COUNT >= 1 and _EssenceBurst_COUNT < _EssenceBurst_MCOUNT then
-			tinsert(ConRO.SuggestedSpells, _LivingFlame);
-			_Burnout_COUNT = _Burnout_COUNT - 1;
+		if _Engulf_RDY and ConRO:HeroSpec(HeroSpec.Flameshaper) then
+			tinsert(ConRO.SuggestedSpells, _Engulf);
+			_Engulf_RDY = false;
 		end
 
-		if _Pyre_RDY and (_Essence >= 2 or _EssenceBurst_COUNT >= 1) and _Dragonrage_CD >= 10 and (((_ChargedBlast_COUNT >= 16 and _Dragonrage_BUFF) or _ChargedBlast_COUNT >= 20) and (ConRO_AutoButton:IsVisible() and _enemies_in_25yrds >= 2) or (ConRO_AutoButton:IsVisible() and _enemies_in_25yrds >= 3) or ConRO_AoEButton:IsVisible()) then
+		if _Pyre_RDY and (_Essence >= _Pyre_COST or _EssenceBurst_COUNT >= 1) and (_FeedtheFlames_BUFF or _ChargedBlast_COUNT >= 12) and ((ConRO_AutoButton:IsVisible() and _enemies_in_25yrds >= 3) or ConRO_AoEButton:IsVisible()) then
 			tinsert(ConRO.SuggestedSpells, _Pyre);
 			if _EssenceBurst_COUNT >= 1 then
 				_EssenceBurst_COUNT = _EssenceBurst_COUNT - 1;
 			else
-				_Essence = _Essence - 2;
+				_Essence = _Essence - _Pyre_COST;
 			end
 		end
 
-		if _Disintegrate_RDY and (_Essence >= 3 or _EssenceBurst_COUNT >= 1)and ((ConRO_AutoButton:IsVisible() and _enemies_in_25yrds <= 2) or ConRO_SingleButton:IsVisible()) then
+		if _Disintegrate_RDY and (_Essence >= 3 or _EssenceBurst_COUNT >= 1) and _MassDisintegrate_BUFF then
 			tinsert(ConRO.SuggestedSpells, _Disintegrate);
 			if _EssenceBurst_COUNT >= 1 then
 				_EssenceBurst_COUNT = _EssenceBurst_COUNT - 1;
@@ -333,7 +432,45 @@ function ConRO.Evoker.Devastation(_, timeShift, currentSpell, gcd, tChosen, pvpC
 			end
 		end
 
-		if _AzureStrike_RDY and ((ConRO_AutoButton:IsVisible() and _enemies_in_25yrds >= 2) or ConRO_AoEButton:IsVisible() or _is_moving or _Dragonrage_BUFF) then
+		if _Pyre_RDY and (_Essence >= _Pyre_COST or _EssenceBurst_COUNT >= 1) and ((ConRO_AutoButton:IsVisible() and _enemies_in_25yrds >= _Pyre_TARGETS) or ConRO_AoEButton:IsVisible()) then
+			tinsert(ConRO.SuggestedSpells, _Pyre);
+			if _EssenceBurst_COUNT >= 1 then
+				_EssenceBurst_COUNT = _EssenceBurst_COUNT - 1;
+			else
+				_Essence = _Essence - _Pyre_COST;
+			end
+		end
+
+		if _LivingFlame_RDY and _LeapingFlames_BUFF and _EssenceBurst_COUNT < _EssenceBurst_MCOUNT and ((ConRO_AutoButton:IsVisible() and _enemies_in_25yrds >= 3) or ConRO_AoEButton:IsVisible()) then
+			tinsert(ConRO.SuggestedSpells, _LivingFlame);
+			_Burnout_COUNT = _Burnout_COUNT - 1;
+			_LeapingFlames_BUFF = false;
+		end
+
+		if _AzureStrike_RDY and ((ConRO_AutoButton:IsVisible() and _enemies_in_25yrds >= 3) or ConRO_AoEButton:IsVisible()) then
+			tinsert(ConRO.SuggestedSpells, _AzureStrike);
+		end
+
+		if _LivingFlame_RDY and _Burnout_COUNT >= 1 and _EssenceBurst_COUNT < _EssenceBurst_MCOUNT and _Essence < _Essence_Max then
+			tinsert(ConRO.SuggestedSpells, _LivingFlame);
+			_Burnout_COUNT = _Burnout_COUNT - 1;
+		end
+
+		if _Disintegrate_RDY and (_Essence >= _Essence_Max or _EssenceBurst_COUNT >= 1) then
+			tinsert(ConRO.SuggestedSpells, _Disintegrate);
+			if _EssenceBurst_COUNT >= 1 then
+				_EssenceBurst_COUNT = _EssenceBurst_COUNT - 1;
+			else
+				_Essence = _Essence - 3;
+			end
+		end
+
+		if _Firestorm_RDY and not _Dragonrage_BUFF and not _ShatteringStar_DEBUFF then
+			tinsert(ConRO.SuggestedSpells, _Firestorm);
+			_Snapfire_BUFF = false;
+		end
+
+		if _AzureStrike_RDY and _is_moving then
 			tinsert(ConRO.SuggestedSpells, _AzureStrike);
 		end
 
@@ -341,7 +478,7 @@ function ConRO.Evoker.Devastation(_, timeShift, currentSpell, gcd, tChosen, pvpC
 			tinsert(ConRO.SuggestedSpells, _LivingFlame);
 		end
 	end
-	return nil;
+return nil;
 end
 
 function ConRO.Evoker.DevastationDef(_, timeShift, currentSpell, gcd, tChosen, pvpChosen)
@@ -350,13 +487,14 @@ function ConRO.Evoker.DevastationDef(_, timeShift, currentSpell, gcd, tChosen, p
 	local Ability, Form, Buff, Debuff, PetAbility, PvPTalent = ids.Dev_Ability, ids.Dev_Form, ids.Dev_Buff, ids.Dev_Debuff, ids.Dev_PetAbility, ids.Dev_PvPTalent;
 --Abilities
 	local _ObsidianScales, _ObsidianScales_RDY = ConRO:AbilityReady(Ability.ObsidianScales, timeShift);
+		local _ObsidianScales_BUFF = ConRO:Aura(Buff.ObsidianScales, timeShift);
 
 --Rotations
-	if _ObsidianScales_RDY then
+	if _ObsidianScales_RDY and not _ObsidianScales_BUFF then
 		tinsert(ConRO.SuggestedDefSpells, _ObsidianScales);
 	end
 
-	return nil;
+return nil;
 end
 
 function ConRO.Evoker.Preservation(_, timeShift, currentSpell, gcd, tChosen, pvpChosen)
@@ -381,6 +519,8 @@ function ConRO.Evoker.Preservation(_, timeShift, currentSpell, gcd, tChosen, pvp
 	local _SourceofMagic, _SourceofMagic_RDY = ConRO:AbilityReady(Ability.SourceofMagic, timeShift);
 	local _TiptheScales, _TiptheScales_RDY = ConRO:AbilityReady(Ability.TiptheScales, timeShift);
 	local _Unravel, _Unravel_RDY = ConRO:AbilityReady(Ability.Unravel, timeShift);
+
+	local Empowered_FireBreath_Rank = "1";
 
 	if tChosen[Ability.FontofMagic.talentID] then
 		_FireBreath, _FireBreath_RDY =_FireBreath_FoM, _FireBreath_FoM_RDY;
@@ -450,9 +590,14 @@ function ConRO.Evoker.PreservationDef(_, timeShift, currentSpell, gcd, tChosen, 
 	local Ability, Form, Buff, Debuff, PetAbility, PvPTalent = ids.Pres_Ability, ids.Pres_Form, ids.Pres_Buff, ids.Pres_Debuff, ids.Pres_PetAbility, ids.Pres_PvPTalent;
 --Abilities
 	local _ObsidianScales, _ObsidianScales_RDY = ConRO:AbilityReady(Ability.ObsidianScales, timeShift);
+	local _ObsidianScales_BUFF = ConRO:Aura(Buff.ObsidianScales, timeShift);
 
+--Conditions
+	local Empowered_DreamBreath_Rank = "1";
+	local Empowered_Spiritbloom_Rank = "1";
+	
 --Rotations
-	if _ObsidianScales_RDY then
+	if _ObsidianScales_RDY and not _ObsidianScales_BUFF then
 		tinsert(ConRO.SuggestedDefSpells, _ObsidianScales);
 	end
 
@@ -475,7 +620,6 @@ function ConRO.Evoker.Augmentation(_, timeShift, currentSpell, gcd, tChosen, pvp
 		local _AncientFlame_BUFF = ConRO:Form(Form.AncientFlame);
 	local _Eruption, _Eruption_RDY = ConRO:AbilityReady(Ability.Eruption, timeShift);
 	local _FireBreath, _FireBreath_RDY = ConRO:AbilityReady(Ability.FireBreath, timeShift);
-		local _FireBreath_FoM, _FireBreath_FoM_RDY = ConRO:AbilityReady(Ability.FireBreath_FoM, timeShift);
 	local _FuryoftheAspects, _FuryoftheAspects_RDY = ConRO:AbilityReady(Ability.FuryoftheAspects, timeShift);
 		local _, _Exhaustion = ConRO:Heroism();
 	local _LivingFlame, _LivingFlame_RDY = ConRO:AbilityReady(Ability.LivingFlame, timeShift);
@@ -489,11 +633,12 @@ function ConRO.Evoker.Augmentation(_, timeShift, currentSpell, gcd, tChosen, pvp
 	local _TiptheScales, _TiptheScales_RDY = ConRO:AbilityReady(Ability.TiptheScales, timeShift);
 		local _TiptheScales_BUFF = ConRO:Form(Form.TiptheScales);
 	local _Upheaval, _Upheaval_RDY = ConRO:AbilityReady(Ability.Upheaval, timeShift);
-		local _Upheaval_FoM, _Upheaval_FoM_RDY = ConRO:AbilityReady(Ability.Upheaval_FoM, timeShift);
 	local _VerdantEmbrace, _VerdantEmbrace_RDY = ConRO:AbilityReady(Ability.VerdantEmbrace, timeShift);
 
+--Conditions
 	if tChosen[Ability.FontofMagic.talentID] then
-		_FireBreath, _FireBreath_RDY, _Upheaval, _Upheaval_RDY =_FireBreath_FoM, _FireBreath_FoM_RDY, _Upheaval_FoM, _Upheaval_FoM_RDY;
+		_FireBreath, _FireBreath_RDY = ConRO:AbilityReady(Ability.FireBreath_FoM, timeShift);
+		_Upheaval, _Upheaval_RDY = ConRO:AbilityReady(Ability.Upheaval_FoM, timeShift);
 	end
 
 	local _EssenceBurst_MCOUNT = 1;
@@ -501,6 +646,12 @@ function ConRO.Evoker.Augmentation(_, timeShift, currentSpell, gcd, tChosen, pvp
 		_EssenceBurst_MCOUNT = 2;
 	end
 
+	local _Eruption_COST = 3;
+	if tChosen[Ability.Volcanism.talentID] then
+		_Eruption_COST = 2;
+	end
+
+	local Empowered_FireBreath_Rank = "1";
 	if ConRO:IsSolo() then
 		Empowered_FireBreath_Rank = "1";
 	else
@@ -511,18 +662,13 @@ function ConRO.Evoker.Augmentation(_, timeShift, currentSpell, gcd, tChosen, pvp
 		end
 	end
 
-	local _Upheaval_Targets = _enemies_in_25yrds;
-	if _Upheaval_Targets <= 1 then
-		Empowered_Upheaval_Rank = "1";
-	else
-		if tChosen[Ability.FontofMagic.talentID] then
-			if _Upheaval_Targets >= 2 then
-				Empowered_Upheaval_Rank = "4";
-			end
+	local Empowered_Upheaval_Rank = "1";
+
+	if currentSpell == _Eruption then
+		if _EssenceBurst_BUFF then
+			_EssenceBurst_COUNT = _EssenceBurst_COUNT - 1;
 		else
-			if _Upheaval_Targets >= 2 then
-				Empowered_Upheaval_Rank = "3";
-			end
+			_Essence = _Essence - 2;
 		end
 	end
 
@@ -554,27 +700,14 @@ function ConRO.Evoker.Augmentation(_, timeShift, currentSpell, gcd, tChosen, pvp
 		ConROEmpoweredFrame:Hide();
 	end
 
-	if currentSpell == _Eruption then
-		if _EssenceBurst_COUNT >= 1 then
-			_EssenceBurst_COUNT = _EssenceBurst_COUNT - 1;
-		else
-			_Essence = _Essence - 2;
-		end
-	end
-
-	if not _in_combat then
-		if _TiptheScales_RDY and not _TiptheScales_BUFF and ConRO:FullMode(_TiptheScales) then
-			tinsert(ConRO.SuggestedSpells, _TiptheScales);
-			_TiptheScales_RDY = false;
-			_TiptheScales_BUFF = true;
-		end
-
-		if _LivingFlame_RDY and currentSpell ~= _LivingFlame then
-			tinsert(ConRO.SuggestedSpells, _LivingFlame);
-		end
-	end
-
 	for i = 1, 2, 1 do
+		if not _in_combat then
+			if _LivingFlame_RDY and currentSpell ~= _LivingFlame then
+				tinsert(ConRO.SuggestedSpells, _LivingFlame);
+				_in_combat = true;
+			end
+		end
+
 		if ConRO:IsSolo() then
 			if _Prescience_RDY and _Prescience_CHARGE >= 1 and not _Prescience_BUFF then
 				tinsert(ConRO.SuggestedSpells, _Prescience);
@@ -594,8 +727,24 @@ function ConRO.Evoker.Augmentation(_, timeShift, currentSpell, gcd, tChosen, pvp
 			_EbonMight_BUFF = true;
 		end
 
-		if _AzureStrike_RDY and _EssenceBurst_COUNT < _EssenceBurst_MCOUNT and (currentSpell == _LivingFlame or currentSpell == _EbonMight or currentSpell == _Eruption) then
-			tinsert(ConRO.SuggestedSpells, _AzureStrike);
+		if _TiptheScales_RDY and not _TiptheScales_BUFF and _FireBreath_RDY and ConRO:FullMode(_TiptheScales) then
+			tinsert(ConRO.SuggestedSpells, _TiptheScales);
+			_TiptheScales_RDY = false;
+		end
+
+		if _FireBreath_RDY then
+			tinsert(ConRO.SuggestedSpells, _FireBreath);
+			_FireBreath_RDY = false;
+		end
+
+		if _BreathofEons_RDY and ConRO:FullMode(_BreathofEons) then
+			tinsert(ConRO.SuggestedSpells, _BreathofEons);
+			_BreathofEons_RDY = false;
+		end
+
+		if _Upheaval_RDY then
+			tinsert(ConRO.SuggestedSpells, _Upheaval);
+			_Upheaval_RDY = false;
 		end
 
 		if _TimeSkip_RDY and not tChosen[Ability.InterwovenThreads.talentID] and _EbonMight_BUFF and not _BreathofEons_RDY and not _FireBreath_RDY and not _Upheaval_RDY and ConRO:FullMode(_TimeSkip) then
@@ -603,32 +752,12 @@ function ConRO.Evoker.Augmentation(_, timeShift, currentSpell, gcd, tChosen, pvp
 			_TimeSkip_RDY = false;
 		end
 
-		if _BreathofEons_RDY and _EbonMight_BUFF and ConRO:FullMode(_BreathofEons) then
-			tinsert(ConRO.SuggestedSpells, _BreathofEons);
-			_BreathofEons_RDY = false;
-		end
-
-		if _TiptheScales_RDY and not _TiptheScales_BUFF and _FireBreath_RDY and ConRO:FullMode(_TiptheScales) then
-			tinsert(ConRO.SuggestedSpells, _TiptheScales);
-			_TiptheScales_RDY = false;
-		end
-
-		if _FireBreath_RDY and _EbonMight_BUFF then
-			tinsert(ConRO.SuggestedSpells, _FireBreath);
-			_FireBreath_RDY = false;
-		end
-
-		if _Upheaval_RDY and _EbonMight_BUFF then
-			tinsert(ConRO.SuggestedSpells, _Upheaval);
-			_Upheaval_RDY = false;
-		end
-
-		if _Eruption_RDY and (_Essence >= 2 or _EssenceBurst_COUNT >= 1) and _EbonMight_BUFF then
+		if _Eruption_RDY and (_Essence >= _Eruption_COST or _EssenceBurst_COUNT >= 1) and _EbonMight_BUFF then
 			tinsert(ConRO.SuggestedSpells, _Eruption);
 			if _EssenceBurst_COUNT >= 1 then
 				_EssenceBurst_COUNT = _EssenceBurst_COUNT - 1;
 			else
-				_Essence = _Essence - 2;
+				_Essence = _Essence - _Eruption_COST;
 			end
 		end
 
@@ -649,6 +778,10 @@ function ConRO.Evoker.Augmentation(_, timeShift, currentSpell, gcd, tChosen, pvp
 		if _LivingFlame_RDY and currentSpell ~= _LivingFlame then
 			tinsert(ConRO.SuggestedSpells, _LivingFlame);
 		end
+
+		if _AzureStrike_RDY and _EssenceBurst_COUNT < _EssenceBurst_MCOUNT and (currentSpell == _LivingFlame or currentSpell == _EbonMight or currentSpell == _Eruption) then
+			tinsert(ConRO.SuggestedSpells, _AzureStrike);
+		end
 	end
 	return nil;
 end
@@ -659,9 +792,10 @@ function ConRO.Evoker.AugmentationDef(_, timeShift, currentSpell, gcd, tChosen, 
 	local Ability, Form, Buff, Debuff, PetAbility, PvPTalent = ids.Aug_Ability, ids.Aug_Form, ids.Aug_Buff, ids.Aug_Debuff, ids.Aug_PetAbility, ids.Aug_PvPTalent;
 --Abilities
 	local _ObsidianScales, _ObsidianScales_RDY = ConRO:AbilityReady(Ability.ObsidianScales, timeShift);
+		local _ObsidianScales_BUFF = ConRO:Aura(Buff.ObsidianScales, timeShift);
 
 --Rotations
-	if _ObsidianScales_RDY then
+	if _ObsidianScales_RDY and not _ObsidianScales_BUFF then
 		tinsert(ConRO.SuggestedDefSpells, _ObsidianScales);
 	end
 
