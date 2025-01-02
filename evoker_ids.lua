@@ -160,6 +160,7 @@ local ConRO_Evoker, ids = ...;
 		NimbleFlyer = {spellID = 441253, talentID = 117540},
 		Slipstream = {spellID = 441257, talentID = 120123},
 		Maneuverability = {spellID = 433871, talentID = 117538},
+			DeepBreathM = {spellID = 433874, talentID = 117538},
 	}
 	ids.Dev_PvPTalent = {
 		ChronoLoop = {spellID = 383005, talentID = 5456},
@@ -536,6 +537,7 @@ local ConRO_Evoker, ids = ...;
 		NimbleFlyer = {spellID = 441253, talentID = 117540},
 		Slipstream = {spellID = 441257, talentID = 120123},
 		Maneuverability = {spellID = 433871, talentID = 117538},
+			BreathofEonsM = {spellID = 442204, talentID = 117538},
 	}
 	ids.Aug_PvPTalent = {
 
